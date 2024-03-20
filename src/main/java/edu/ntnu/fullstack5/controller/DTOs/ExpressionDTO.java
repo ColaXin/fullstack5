@@ -1,4 +1,4 @@
-package edu.ntnu.fullstack5.controller;
+package edu.ntnu.fullstack5.controller.DTOs;
 
 public class ExpressionDTO {
 

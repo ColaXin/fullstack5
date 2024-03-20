@@ -1,4 +1,4 @@
-package edu.ntnu.fullstack4java.model;
+package edu.ntnu.fullstack5.model;
 
 public class CalculationResponse {
   private boolean success;

@@ -3,6 +3,7 @@ import Screen from "@/components/Screen.vue";
 import Keypad from "@/components/Keypad.vue";
 import Log from "@/components/Log.vue";
 import axios from "axios";
+import Login from "@/components/Login.vue";
 </script>
 
 <script>
@@ -23,6 +24,10 @@ export default {
       calculation: "",
       expressionArray: [],
       resultArray: [],
+      user : {
+        username: "Mogus",
+        password: "test"
+      }
     };
   },
   methods: {
@@ -71,6 +76,10 @@ export default {
         this.calculation = "-" + this.calculation;
       }
     },
+    updateCredentials(credentials) {
+      this.user.username = credentials.username;
+      this.user.password = credentials.password;
+    },
     async calculate() {
       if (this.calculation === "Error") {
         // Handle error case appropriately
@@ -78,9 +87,11 @@ export default {
       }
       try {
         let expression = this.calculation.replaceAll('Ans', this.resultArray[this.resultArray.length - 1]);
+        let username = this.user.username;
+        let password = this.user.password;
 
 
-        const response = await axios.post('http://localhost:8080/calculator/evaluate', { expression });
+        const response = await axios.post('http://localhost:8080/calculator/evaluate', { expression, username, password });
 
         if (!response.data.success) {
           this.expressionArray.push("Error");
@@ -120,7 +131,10 @@ export default {
               @invert="invert"/>
       <Log   :results="resultArray" :expressions="expressionArray"/>
     </div>
-    </div>
+    <h1 v-if="user.username">Logged in as: {{user.username}}</h1>
+    <Login @credentialsSubmitted="updateCredentials"/>
+
+  </div>
 
 </template>
 
